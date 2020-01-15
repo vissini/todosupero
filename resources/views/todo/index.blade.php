@@ -17,7 +17,8 @@
         </div>
       </div>
       <div class="card-body">
-        <a class="btn btn-primary" href="{{ route('todo.create') }}">Adicionar Tarefa</a>
+        <a class="btn btn-primary mb-3" href="{{ route('todo.create') }}">Adicionar Tarefa</a>
+        @include('_errors')
         <table class="table table-striped projects">
             <thead>
                 <tr>
