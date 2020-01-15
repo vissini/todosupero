@@ -2,7 +2,7 @@
 
 @extends('adminlte::page')
 
-@section('title', 'Dashboard')
+@section('title', 'Todo List')
 
 @section('content')
 
@@ -16,20 +16,18 @@
             <i class="fas fa-minus"></i></button>
         </div>
       </div>
-      <div class="card-body p-0">
-        <button type="button" class="btn btn-primary m-3" data-toggle="modal" data-target="#modal-default">
-          Adicionar Tarefa
-        </button>
+      <div class="card-body">
+        <a class="btn btn-primary" href="{{ route('todo.create') }}">Adicionar Tarefa</a>
         <table class="table table-striped projects">
             <thead>
                 <tr>
-                    <th style="width: 1%">
+                    <th>
                         #
                     </th>
-                    <th style="width: 20%">
+                    <th>
                         Title
                     </th>
-                    <th style="width: 30%">
+                    <th>
                         Status
                     </th>
                     <th>
@@ -55,16 +53,22 @@
                     {{ $todo->description }}
                   </td>
                   <td class="project_progress">
-                    <a class="btn btn-info btn-sm" href="#">
+                    <a class="btn btn-info btn-sm" href=" {{ route('todo.edit',  ['todo'=>$todo->id]) }} ">
                       <i class="fas fa-pencil-alt">
                       </i>
                       Edit
                     </a>
-                    <a class="btn btn-danger btn-sm" href="#">
+                    <a class="btn btn-danger btn-sm" href=" {{ route('todo.destroy',  ['todo'=>$todo->id]) }} "
+                      onclick="event.preventDefault(); if(confirm('Deseja apagar a Tarefa')){document.getElementById('form-todo-delete-{{ $todo->id }}').submit();}"
+                    >
                       <i class="fas fa-trash">
                       </i>
                       Delete
                     </a>
+                    <form id="form-todo-delete-{{ $todo->id }}" style="display:none" action="{{ route('todo.destroy', ['todo'=>$todo->id]) }}" method="POST">
+                      {{ csrf_field() }}
+                      {{ method_field('DELETE') }}
+                    </form>
                   </td>
                 </tr>
               @empty
@@ -76,29 +80,6 @@
       <!-- /.card-body -->
     </div>
     <!-- /.card -->
-
-    <div class="modal fade" id="modal-default">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">Default Modal</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <p>One fine body&hellip;</p>
-          </div>
-          <div class="modal-footer justify-content-between">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-          </div>
-        </div>
-        <!-- /.modal-content -->
-      </div>
-      <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
 @stop
 
 @section('css')

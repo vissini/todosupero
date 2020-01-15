@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Todo;
+use App\Http\Requests\TodoFormRequest;
 
 class TodoController extends Controller
 {
@@ -15,7 +16,7 @@ class TodoController extends Controller
     public function index()
     {
         $todoList = Todo::all();
-        return view('todo', compact('todoList'));
+        return view('todo.index', compact('todoList'));
     }
 
     /**
@@ -25,7 +26,8 @@ class TodoController extends Controller
      */
     public function create()
     {
-        //
+        $todo = new Todo();
+        return view('todo.create', compact('todo'));
     }
 
     /**
@@ -34,9 +36,10 @@ class TodoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TodoFormRequest $request)
     {
-        //
+        $todo = Todo::create($request->all());
+        return redirect()->route('todo.index')->with('success','Tarefa criada com sucesso!');
     }
 
     /**
@@ -56,9 +59,9 @@ class TodoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Todo $todo)
     {
-        //
+        return view('todo.edit', compact('todo'));
     }
 
     /**
@@ -68,9 +71,10 @@ class TodoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TodoFormRequest $request, Todo $todo)
     {
-        //
+        $todo->update($request->all());
+        return redirect()->route('todo.index')->with('success','Tarefa alterada com sucesso!');
     }
 
     /**
@@ -79,8 +83,9 @@ class TodoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Todo $todo)
     {
-        //
+        $todo->delete();
+        return redirect()->route('todo.index')->with('success','Tarefa deletada com sucesso!');
     }
 }
