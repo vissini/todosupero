@@ -40,31 +40,43 @@
             </thead>
             <tbody>
               @forelse ($todoList as $todo)
+                @php
+                if ($todo->status === "fechado"){
+                  $line = "style=text-decoration:line-through";
+                }else{
+                  $line = "";
+                }
+                @endphp
                 <tr>
-                  <td>
+                  <td {{ $line }}>
                     {{ $todo->id }}
                   </td>
-                  <td>
+                  <td {{ $line }}>
                     {{ $todo->title }}
                   </td>
-                  <td>
+                  <td {{ $line }}>
                     {{ $todo->status }}
                   </td>
-                  <td>
+                  <td {{ $line }}>
                     {{ $todo->description }}
                   </td>
                   <td class="project_progress">
                     <a class="btn btn-info btn-sm" href=" {{ route('todo.edit',  ['todo'=>$todo->id]) }} ">
                       <i class="fas fa-pencil-alt">
                       </i>
-                      Edit
+                      Editar
+                    </a>
+                    <a class="btn btn-warning btn-sm" href=" {{ route('todo.close',  ['todo'=>$todo->id]) }} ">
+                      <i class="fas fa-window-close">
+                      </i>
+                      Fechar
                     </a>
                     <a class="btn btn-danger btn-sm" href=" {{ route('todo.destroy',  ['todo'=>$todo->id]) }} "
                       onclick="event.preventDefault(); if(confirm('Deseja apagar a Tarefa')){document.getElementById('form-todo-delete-{{ $todo->id }}').submit();}"
                     >
                       <i class="fas fa-trash">
                       </i>
-                      Delete
+                      Apagar
                     </a>
                     <form id="form-todo-delete-{{ $todo->id }}" style="display:none" action="{{ route('todo.destroy', ['todo'=>$todo->id]) }}" method="POST">
                       {{ csrf_field() }}

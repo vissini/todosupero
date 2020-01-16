@@ -7,8 +7,8 @@
     <div class="form-group">
       <label for="status">Status</label>
       <select name="status" id="status" class="form-control">
-        <option value="1" {{ (old("status",$todo->id) == 1 ? "selected":"") }}>Aberto</option>
-        <option value="2" {{ (old("status",$todo->id) == 2 ? "selected":"") }}  >Fechado</option>
+        <option value="aberto" {{ (old("status",$todo->status) == 'aberto' ? "selected":"") }}>Aberto</option>
+        <option value="fechado" {{ (old("status",$todo->status) == 'fechado' ? "selected":"") }}  >Fechado</option>
       </select>
     </div>
       <div class="form-group">

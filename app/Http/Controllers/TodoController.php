@@ -8,6 +8,10 @@ use App\Http\Requests\TodoFormRequest;
 
 class TodoController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -87,5 +91,11 @@ class TodoController extends Controller
     {
         $todo->delete();
         return redirect()->route('todo.index')->with('success','Tarefa deletada com sucesso!');
+    }
+
+    public function close(Todo $todo)
+    {
+        $todo->update(['status'=>'fechado']);
+        return redirect()->route('todo.index')->with('success','Tarefa fechada com sucesso!');
     }
 }

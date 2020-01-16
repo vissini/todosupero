@@ -11,11 +11,16 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('auth.login');
+// });
+Route::redirect('/', '/todo');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/todo/endpoint', function () {
+    return view('todo.endpoint');
+});
 Route::resource('todo', 'TodoController');
+Route::get('todo/{todo}/close', 'TodoController@close')->name('todo.close');
